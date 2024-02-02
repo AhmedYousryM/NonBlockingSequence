@@ -1,7 +1,7 @@
 #include "NonBlockingSequence.h"
 
     void NonBlockingSequence::DoSequence(){
-
+        if (_end = false){
         switch(steps.get_element().my_step_type){
 
             case NonBlockingSequence::function_call:
@@ -51,7 +51,7 @@
             break;
 
         }
-        
+        }
     }
 
     void NonBlockingSequence::AddNewStep( func_ptr_type func_ptr ){
