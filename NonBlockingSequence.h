@@ -131,7 +131,7 @@ class ClassNonBlockingSequence{
 
     template <class A_class>
     void ClassNonBlockingSequence<A_class>::DoSequence(){
-
+        if(_end==false){
         switch(steps.get_element().my_step_type){
             case ClassNonBlockingSequence<A_class>::function_call:
                 if(first_time_exexuting_step==true){
@@ -176,7 +176,7 @@ class ClassNonBlockingSequence{
                 }
             break;
         }
-        
+        }
     }
 
     template <class A_class>
