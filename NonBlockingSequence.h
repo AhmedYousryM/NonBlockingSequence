@@ -54,7 +54,7 @@ class NonBlockingSequence{
 
     bool NextStep();
     // Force the sequence to go to the next step
-    // Rum the next step when the function DoSequence() calles
+    // Run the next step when the function DoSequence() calles
 
     unsigned int PassSteps(unsigned int n);
     // Pass n future step without run
