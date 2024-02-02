@@ -117,3 +117,7 @@
         }
         return pass;
     }
+
+    bool NonBlockingSequence::first_time_exexuting_step(){
+        return first_time_exexuting_step;
+    }
