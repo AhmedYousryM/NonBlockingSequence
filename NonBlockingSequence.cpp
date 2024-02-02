@@ -40,8 +40,8 @@
             break;
 
             case NonBlockingSequence::repeat_n_times:
-                if(_n_conter>0){
-                    _n_conter--;
+                if(_n_counter>0){
+                    _n_counter--;
                     steps.from_begining();
                     pauses_time.from_begining();
                     first_time_exexuting_step=true;
@@ -87,8 +87,8 @@
     void NonBlockingSequence::Repeat(unsigned int n){
         step mystep ;
         mystep.my_step_type= NonBlockingSequence::repeat_n_times;
-        repetition = n;
-        _n_conter = n;
+        repetition = n - 1 ;
+        _n_counter = n - 1 ;
         steps.add_element(mystep);
     }
 
