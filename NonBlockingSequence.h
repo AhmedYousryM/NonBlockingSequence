@@ -60,13 +60,14 @@ class NonBlockingSequence{
     // Pass n future step without run
     // the sequence jump over n future step
 
-    bool first_time_exexuting_step=true;
+    bool first_time_exexuting_step();
     // this value is true if the step in its first time calling
     // this value is false if the step is called before
 
 
     private:
-    
+
+    bool first_time_exexuting_step=true;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
         func_ptr_type fun_ptr;
@@ -98,10 +99,11 @@ class ClassNonBlockingSequence{
     bool Finish();
     bool NextStep();
     unsigned int PassSteps(unsigned int n);
-    bool first_time_exexuting_step=true;
+    bool first_time_exexuting_step();
 
 
     private:
+    bool first_time_exexuting_step=true;
     A_class *a_obj;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
@@ -245,5 +247,10 @@ class ClassNonBlockingSequence{
             }
         }
         return pass;
+    }
+
+    template <class A_class>
+    bool ClassNonBlockingSequence<A_class>::first_time_exexuting_step(){
+        return first_time_exexuting_step;
     }
 #endif
