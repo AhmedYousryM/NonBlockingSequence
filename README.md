@@ -121,11 +121,13 @@ else{
 return false;
 }
 ```
+
 ### Add Delay
 ```c++
 void NonBlockingSequence.AddDelayInMillis(unsigned long val)
 ```
 Add a new delay step to the sequence. This delay waits `val` milliseconds. This delay doesnot block other codes outside the sequence. It only delay the execution of the next step in the same sequence.
+
 ### Do Sequence Steps
 ```c++
 void NonBlockingSequence.DoSequence()
@@ -152,14 +154,12 @@ Force the sequence to start from the begining.
 ```c++
 void NonBlockingSequence.Repeat();
 ```
-Repeat the sequence for infinite number of times. Usually this method is used after all needed steps are added.
+Repeat the sequence for infinite number of times. Usually this method is used at after all needed steps are added.
 
 ```c++
 void NonBlockingSequence.Repeat(unsigned int n);
 ```
-Repeat the previous sequence steps for `n` times.
-
-
+Repeat the previous sequence steps for `n` times. Usually this method is used after all needed steps are added.
 
 ### Next Step
 ```c++
@@ -167,13 +167,29 @@ bool NonBlockingSequence.NextStep();
 ```
 Terminate the current step execution. Force the sequence to go to the next step. Next time the function `DoSequence()` is called, the next step is executed.
 - if the previous action is done succesfully         :        it returns true
-- if the current state
+- if the current state is final state                :        it returns false
 
-### PassSteps(unsigned int n);
-    // Pass n future step without run
-    // the sequence jump over n future step
+### Pass Steps
+```c++
+unsigned int NonBlockingSequence.PassSteps(unsigned int n);
+```
+the sequence jump over n future step without calling. This function is similar to calling `NextStep()` for `n` time. It also returns number of succesful step jumps.
 
 ### first_time_exexuting_step();
-    // this value is true if the step in its first time calling
-    // this value is false if the step is called before
+```c++
+bool NonBlockingSequence.first_time_exexuting_step;
+```
+This function check if the current step is running for the first time. This function used to apply number of command in a step for the first call only.
 
+## Important Notes
+
+### Nested Sequence
+You can many sequences nested with multiple levels.
+
+### Conditional Sequence
+It can be done using 2 different methods:
+- Defining two different sequences. Use if-else conditions, to select between them.
+- In a single sequence, it is possible to define many adjacent steps, and conditionally jump over these steps without execution using `PassSteps()` method.
+
+### Class Boolean Function
+In the previous example, it is only mentioned to add steps of boolean function that does not belong to class. But is it possible to deal with class boolean function? To answer this question look for the example Class_Function.
