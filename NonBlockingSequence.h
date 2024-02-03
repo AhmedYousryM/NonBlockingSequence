@@ -60,14 +60,14 @@ class NonBlockingSequence{
     // Pass n future step without run
     // the sequence jump over n future step
 
-    bool first_time_exexuting_step();
+    bool FirstTimeStepExecuting();
     // this value is true if the step in its first time calling
     // this value is false if the step is called before
 
 
     private:
 
-    bool first_time_exexuting_step=true;
+    bool first_time_executing_step=true;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
         func_ptr_type fun_ptr;
@@ -99,11 +99,11 @@ class ClassNonBlockingSequence{
     bool Finish();
     bool NextStep();
     unsigned int PassSteps(unsigned int n);
-    bool first_time_exexuting_step();
+    bool FirstTimeStepExecuting();
 
 
     private:
-    bool first_time_exexuting_step=true;
+    bool first_time_executing_step=true;
     A_class *a_obj;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
@@ -134,12 +134,12 @@ class ClassNonBlockingSequence{
         if(_end==false){
         switch(steps.get_element().my_step_type){
             case ClassNonBlockingSequence<A_class>::function_call:
-                if(first_time_exexuting_step==true){
+                if(first_time_executing_step==true){
                     my_func_ptr=steps.get_element().fun_ptr;
                     if( (a_obj->*my_func_ptr)() ){
                         NextStep();
                     }else{
-                        first_time_exexuting_step=false;
+                        first_time_executing_step=false;
                     }
                 }else{
                     if( (a_obj->*my_func_ptr)() ){
@@ -149,9 +149,9 @@ class ClassNonBlockingSequence{
             break;
 
             case ClassNonBlockingSequence<A_class>::pause:
-                if(first_time_exexuting_step==true){
+                if(first_time_executing_step==true){
                     start_pause_time=millis();
-                    first_time_exexuting_step=false;      
+                    first_time_executing_step=false;      
                 }else if( millis()-start_pause_time > pauses_time.get_element() ){
                     // prepare for the next pause
                     pauses_time.next();
@@ -170,7 +170,7 @@ class ClassNonBlockingSequence{
                     _n_conter--;
                     steps.from_begining();
                     pauses_time.from_begining();
-                    first_time_exexuting_step=true;
+                    first_time_executing_step=true;
                 }else{
                     _end=true;
                 }
@@ -201,7 +201,7 @@ class ClassNonBlockingSequence{
         steps.from_begining();
         pauses_time.from_begining();
         _end=false;
-        first_time_exexuting_step=true;
+        first_time_executing_step=true;
         _n_conter = repetition;
     }
 
@@ -230,7 +230,7 @@ class ClassNonBlockingSequence{
     template <class A_class>
     bool ClassNonBlockingSequence<A_class>::NextStep(){
         if (steps.next()){
-            first_time_exexuting_step=true;
+            first_time_executing_step=true;
             return true;
         }
         else{ _end=true; return false; }
@@ -250,7 +250,7 @@ class ClassNonBlockingSequence{
     }
 
     template <class A_class>
-    bool ClassNonBlockingSequence<A_class>::first_time_exexuting_step(){
-        return first_time_exexuting_step;
+    bool ClassNonBlockingSequence<A_class>::FirstTimeStepExecuting(){
+        return first_time_executing_step;
     }
 #endif
