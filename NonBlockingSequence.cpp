@@ -5,12 +5,12 @@
         switch(steps.get_element().my_step_type){
 
             case NonBlockingSequence::function_call:
-                if(first_time_exexuting_step==true){
+                if(first_time_executing_step==true){
                     my_func_ptr=steps.get_element().fun_ptr;
                     if( (my_func_ptr)() ){
                         NextStep();
                     }else{
-                        first_time_exexuting_step=false;
+                        first_time_executing_step=false;
                     }
                 }else{
                     if( (my_func_ptr)() ){
@@ -21,9 +21,9 @@
             break;
 
             case NonBlockingSequence::pause:
-                if(first_time_exexuting_step==true){
+                if(first_time_executing_step==true){
                     start_pause_time=millis();
-                    first_time_exexuting_step=false;
+                    first_time_executing_step=false;
                 }else if( millis()-start_pause_time > pauses_time.get_element() ){
                     // prepare for the next pause
                     pauses_time.next();
@@ -44,7 +44,7 @@
                     _n_counter--;
                     steps.from_begining();
                     pauses_time.from_begining();
-                    first_time_exexuting_step=true;
+                    first_time_executing_step=true;
                 }else{
                     _end=true;
                 }
@@ -74,7 +74,7 @@
         steps.from_begining();
         pauses_time.from_begining();
         _end=false;
-        first_time_exexuting_step=true;
+        first_time_executing_step=true;
         _n_conter = repetition;
     }
 
@@ -100,7 +100,7 @@
 
     bool NonBlockingSequence::NextStep(){
         if (steps.next()){ 
-            first_time_exexuting_step=true;
+            first_time_executing_step=true;
             return true;
         }
         else{ _end=true; return false; }
@@ -118,6 +118,6 @@
         return pass;
     }
 
-    bool NonBlockingSequence::first_time_exexuting_step(){
-        return first_time_exexuting_step;
+    bool NonBlockingSequence::FirstTimeStepExecuting(){
+        return first_time_executing_step;
     }
