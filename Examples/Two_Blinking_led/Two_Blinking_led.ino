@@ -9,7 +9,6 @@ NonBlockingSequence Sequence1;
 NonBlockingSequence Sequence2;
 
 void setup() {
-  Serial.begin(9600);
   
   // Define steps for Sequence1
   Sequence1.AddNewStep(&led1_on);
