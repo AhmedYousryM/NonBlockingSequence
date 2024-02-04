@@ -1,5 +1,7 @@
 #include <NonBlockingSequence.h>
 
+//visit https://github.com/AhmedYousryM/NonBlockingSequence
+
 NonBlockingSequence chat;
 NonBlockingSequence subsequence;
 String TotalString;
