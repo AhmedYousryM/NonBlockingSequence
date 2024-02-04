@@ -127,23 +127,24 @@ It is also possible to make a sequence of steps. Where each step is considered a
 void NonBlockingSequence.AddDelayInMillis(unsigned long val)
 ```
 Add a new delay step to the sequence. This delay waits `val` milliseconds. This delay does not block other codes outside the sequence. It only delays the execution of the next step in the same sequence.
+This method uses Arduino Timer0. So, to insure this method functions properly, do not change the timer0 regesters.
 
 ### Do Sequence Steps
 ```c++
 void NonBlockingSequence.DoSequence()
 ```
-Run the sequence step by step. The steps can either be a boolean function or timer. Each time the function `DoSequence()` is called, a step is called until a trigger action is happened. The trigger action can be:
+Run the sequence current step. The steps can either be a boolean function or timer. Each time the function `DoSequence()` is called, a step is called until a trigger action is happened. The trigger action can be:
 - for boolean function:       return true.
 - for timer           :       running time is over.
 
 After the trigger action is occurred. The sequence start to call the next step.
-The function `DoSequence()` should be called inside the `void loop()` method.
+The function `DoSequence()` should be called inside the `void loop()` method. Because each time `DoSequence()` is called the current steps is executed. As the method `DoSequence()` is called many times, the sequence go forward step by step.
 
 ### Sequence end
 ```c++
-bool NonBlockingSequence.Finish();
+bool NonBlockingSequence.isFinish();
 ```
-Check if the sequence reach its end, and finish executing all sequence steps.
+Check if the sequence reach its end, and finish executing all sequence steps. If the sequence is repeated infinite number of times without end, using `Repeat()` function, then `isFinish` function always return false.
 
 ### Restart
 ```c++
