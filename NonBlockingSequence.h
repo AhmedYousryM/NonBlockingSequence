@@ -49,7 +49,7 @@ class NonBlockingSequence{
     void Repeat(unsigned int n);
     //end-line to repeat the sequence for infinity
 
-    bool Finish();
+    bool isFinish();
     // check if the sequence reach its end
 
     bool NextStep();
@@ -96,7 +96,7 @@ class ClassNonBlockingSequence{
     void Restart();
     void Repeat();
     void Repeat(unsigned int n);
-    bool Finish();
+    bool isFinish();
     bool NextStep();
     unsigned int PassSteps(unsigned int n);
     bool FirstTimeStepExecuting();
@@ -223,7 +223,7 @@ class ClassNonBlockingSequence{
 
 
     template <class A_class>
-    bool ClassNonBlockingSequence<A_class>::Finish(){
+    bool ClassNonBlockingSequence<A_class>::isFinish(){
         return _end;
     }
 
