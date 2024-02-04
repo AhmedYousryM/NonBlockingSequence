@@ -5,7 +5,24 @@ This code illustrate How to declare a new class that run specific sequence
 */
 
 class Blinking_Led{
-  
+
+  private:
+  // Declare Sequence
+  ClassNonBlockingSequence<Blinking_Led> Sequence;
+
+  // led pin
+  byte _pin; 
+
+  // Define step-functions
+  bool led_on(){
+    digitalWrite(_pin,1);
+    return true;
+  }
+  bool led_off(){
+      digitalWrite(_pin,0);
+      return true;
+  }
+
   public:
   Blinking_Led(){};  
   void init(byte pin,unsigned long pause){
@@ -26,28 +43,12 @@ class Blinking_Led{
     Sequence.Repeat();
     // repeat the sequence infinite number of times
     
-    //Serial.println("pointer:  "+(String)((unsigned long)this)+"   Pin:   "+(String)((int)_pin));
   }
   
   Blink(){ // use familiar name for led
     Sequence.DoSequence();
   }
-  private:
-  // Declare Sequence
-  ClassNonBlockingSequence<Blinking_Led> Sequence;
-
-  // Define step-functions
-  bool led_on(){
-    digitalWrite(_pin,1);
-    return true;
-  }
-  bool led_off(){
-      digitalWrite(_pin,0);
-      return true;
-  }
-
-  // led pin
-  byte _pin;  
+  
 };
 
 // Declare new objects
@@ -55,9 +56,8 @@ Blinking_Led Led1;
 Blinking_Led Led2;
 
 void setup() {
-  Serial.begin(9600);
 
-  //  ( pin , blinking time )
+  //  Led.init( pin , blinking time )
   Led1.init(13,200);
   Led2.init(12,1500);
  
