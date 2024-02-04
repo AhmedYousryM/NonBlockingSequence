@@ -6,9 +6,9 @@
 #include <Arduino.h>
 
 /*
-* This liberar is used to build a sequence of commands
-* Arduino can run multiple sequences at the same time
-* It is possible to run nested sequences
+* This Library is used to build a sequence of commands.
+* Arduino can run multiple sequences at the same time.
+* It is possible to run nested sequences.
 
 Author: Ahmed Yousry
 Date: 16/12
