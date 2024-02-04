@@ -94,7 +94,7 @@
 
 
 
-    bool NonBlockingSequence::Finish(){
+    bool NonBlockingSequence::isFinish(){
         return _end;
     }
 
