@@ -1,6 +1,6 @@
 #include <NonBlockingSequence.h>
 
-visit https://github.com/AhmedYousryM/NonBlockingSequence
+//visit https://github.com/AhmedYousryM/NonBlockingSequence
 
 // Pin used to wire the leds
 #define led1 13
