@@ -131,7 +131,7 @@ This method uses Arduino Timer0. So, to insure this method functions properly, d
 
 ### Do Sequence Steps
 ```c++
-void NonBlockingSequence.DoSequence()
+bool NonBlockingSequence.DoSequence()
 ```
 Run the sequence current step. The steps can either be a boolean function or timer. Each time the function `DoSequence()` is called, a step is called until a trigger action is happened. The trigger action can be:
 - for boolean function:       return true.
@@ -139,6 +139,9 @@ Run the sequence current step. The steps can either be a boolean function or tim
 
 After the trigger action is occurred. The sequence start to call the next step.
 The function `DoSequence()` should be called inside the `void loop()` method. Because each time `DoSequence()` is called the current steps is executed. As the method `DoSequence()` is called many times, the sequence go forward step by step.
+
+`DoSequence()` return true when it is executed successfully. And return false when it
+is finished executing the sequene.
 
 ### Sequence end
 ```c++
@@ -151,6 +154,13 @@ Check if the sequence reach its end, and finish executing all sequence steps. If
 void NonBlockingSequence.Restart();
 ```
 Force the sequence to start from the beginning.
+
+### AutoRestart
+```c++
+void NonBlockingSequence.AutoRestart(unsigned long time_mil);
+```
+The Sequency will restart automatically when `DoSequence()` is not called for long time, longer than time_mil.
+In regular case, The function `DoSequence()` is called repeatedly inside the arduino `void loop()`. If for any reason it was not called for long time, Then it may be need to be called from start next time. this function possible using `AutoStart()`.
 
 ### Repeat
 ```c++

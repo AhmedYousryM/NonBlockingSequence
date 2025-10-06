@@ -1,6 +1,14 @@
 #include "NonBlockingSequence.h"
 
-    void NonBlockingSequence::DoSequence(){
+    bool NonBlockingSequence::DoSequence(){
+        
+        if(_time_mil>0){
+            if ( millis() - _last_time_mil_sequence_do > _time_mil ){
+                Restart();
+            }
+                _last_time_mil_sequence_do = millis() ;
+        }
+
         if (_end == false){
         switch(steps.get_element().my_step_type){
 
@@ -52,6 +60,7 @@
 
         }
         }
+        return !_end;
     }
 
     void NonBlockingSequence::AddNewStep( func_ptr_type func_ptr ){
@@ -75,7 +84,8 @@
         pauses_time.from_begining();
         _end=false;
         first_time_executing_step=true;
-        _n_conter = repetition;
+        _n_counter = repetition;
+        _last_time_mil_sequence_do = millis() ;
     }
 
     void NonBlockingSequence::Repeat(){
@@ -120,4 +130,9 @@
 
     bool NonBlockingSequence::FirstTimeStepExecuting(){
         return first_time_executing_step;
+    }
+
+
+    void NonBlockingSequence::AutoRestart(unsigned long time_mil){
+        _time_mil=time_mil;
     }

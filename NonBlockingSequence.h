@@ -19,7 +19,7 @@ class NonBlockingSequence{
 
     public:
 
-    void DoSequence();
+    bool DoSequence();
     // run the sequence (step by step)
 
     typedef bool (*func_ptr_type)();
@@ -64,6 +64,10 @@ class NonBlockingSequence{
     // this value is true if the step in its first time calling
     // this value is false if the step is called before
 
+    void AutoRestart(unsigned long time_mil = 2000);
+    // Automatically restart the sequence if not called for time longer than time_mil
+
+
 
     private:
 
@@ -77,9 +81,11 @@ class NonBlockingSequence{
     MyLinkedList< unsigned long > pauses_time;
     unsigned long start_pause_time;
     func_ptr_type my_func_ptr;
-    unsigned int _n_conter;
+    unsigned int _n_counter;
     unsigned int repetition;
     bool _end=false;
+    unsigned long _time_mil=0;
+    unsigned long _last_time_mil_sequence_do;
     
 };
 
@@ -89,7 +95,7 @@ class ClassNonBlockingSequence{
     public:
     
     void AttachedObj(A_class* a);
-    void DoSequence();
+    bool DoSequence();
     typedef bool (A_class::*func_ptr_type)();
     void AddNewStep( func_ptr_type func_ptr);
     void AddDelayInMillis(unsigned long val);
@@ -100,6 +106,7 @@ class ClassNonBlockingSequence{
     bool NextStep();
     unsigned int PassSteps(unsigned int n);
     bool FirstTimeStepExecuting();
+    void AutoRestart(unsigned long time_mil = 2000);
 
 
     private:
@@ -114,9 +121,11 @@ class ClassNonBlockingSequence{
     MyLinkedList< unsigned long > pauses_time;
     unsigned long start_pause_time;
     func_ptr_type my_func_ptr;
-    unsigned int _n_conter;
+    unsigned int _n_counter;
     unsigned int repetition;
     bool _end=false;
+    unsigned long _time_mil=0;
+    unsigned long _last_time_mil_sequence_do;
 };
 
 
@@ -130,7 +139,13 @@ class ClassNonBlockingSequence{
     }
 
     template <class A_class>
-    void ClassNonBlockingSequence<A_class>::DoSequence(){
+    bool ClassNonBlockingSequence<A_class>::DoSequence(){
+        if(_time_mil>0){
+            if ( millis() - _last_time_mil_sequence_do > _time_mil ){
+                Restart();
+            }
+                _last_time_mil_sequence_do = millis() ;
+        }
         if(_end==false){
         switch(steps.get_element().my_step_type){
             case ClassNonBlockingSequence<A_class>::function_call:
@@ -166,8 +181,8 @@ class ClassNonBlockingSequence{
             break;
 
             case ClassNonBlockingSequence<A_class>::repeat_n_times:
-                if(_n_conter>0){
-                    _n_conter--;
+                if(_n_counter>0){
+                    _n_counter--;
                     steps.from_begining();
                     pauses_time.from_begining();
                     first_time_executing_step=true;
@@ -177,6 +192,8 @@ class ClassNonBlockingSequence{
             break;
         }
         }
+
+        return !_end;
     }
 
     template <class A_class>
@@ -202,7 +219,7 @@ class ClassNonBlockingSequence{
         pauses_time.from_begining();
         _end=false;
         first_time_executing_step=true;
-        _n_conter = repetition;
+        _n_counter = repetition;
     }
 
     template <class A_class>
@@ -216,8 +233,8 @@ class ClassNonBlockingSequence{
     void ClassNonBlockingSequence<A_class>::Repeat(unsigned int n){
         step mystep ;
         mystep.my_step_type= ClassNonBlockingSequence<A_class>::repeat_n_times;
-        repetition = n;
-        _n_conter = n;
+        repetition = n - 1;
+        _n_counter = n - 1;
         steps.add_element(mystep);
     }
 
@@ -252,5 +269,10 @@ class ClassNonBlockingSequence{
     template <class A_class>
     bool ClassNonBlockingSequence<A_class>::FirstTimeStepExecuting(){
         return first_time_executing_step;
+    }
+
+    template <class A_class>
+    void ClassNonBlockingSequence<A_class>::AutoRestart(unsigned long time_mil){
+        _time_mil=time_mil;
     }
 #endif
