@@ -160,7 +160,7 @@ Force the sequence to start from the beginning.
 void NonBlockingSequence.AutoRestart(unsigned long time_mil);
 ```
 The Sequency will restart automatically when `DoSequence()` is not called for long time, longer than time_mil.
-In regular case, The function `DoSequence()` is called repeatedly inside the arduino `void loop()`. If for any reason it was not called for long time, Then it may be need to be called from start next time. this function possible using `AutoStart()`.
+In regular case, The function `DoSequence()` is called repeatedly inside the arduino `void loop()`. If for any reason it was not called for long time, Then it may be need to be called from start next time. this function possible using `AutoRestart()`.
 
 ### Repeat
 ```c++
