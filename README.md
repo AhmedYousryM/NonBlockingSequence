@@ -1,7 +1,31 @@
 # NonBlockingSequence
-This library is used to build a sequence of tasks. Each task is repeatedly called, until specific trigger, then the next task is called. This trigger can be anything: variable value change, input signal, or timer. It is possible to run multiple sequences at the same time, without blocking each other.
 
-This sequence of tasks is similar to PLC programming for industerial sequence, Or similar to state machine with only one path. If it is needed to build a state machine with multiple paths, It is possible to define many sequences, and control which sequence to run by using the if-else condition.
+NonBlockingSequence is an Arduino library for creating **non-blocking sequences of tasks**. It allows you to run multiple tasks step by step without using `delay()` or blocking other parts of your program.
+
+## Features
+
+* **Non-blocking** — tasks run without stopping the main program.
+* **Sequential tasks** — execute tasks in a defined order.
+* **Trigger-based** — move to the next task when a condition, signal, variable change, or timer triggers it.
+* **Multiple sequences** — run multiple independent sequences at the same time.
+* **Arduino compatible** — designed for Arduino and embedded C++ projects.
+* **Flexible triggers** — triggers can be based on virtually any condition in your program.
+* **Suitable for automation** — useful for machines, robotics, CNC, and other automated systems.
+* **PLC-like sequences** — useful for implementing industrial-style sequential operations.
+* **State-machine alternative** — can be used to build simple state-based control logic.
+
+## Description
+
+This library is used to build a sequence of tasks. Each task is repeatedly called until a specific trigger occurs, then the next task is called.
+
+The trigger can be anything, such as a variable value change, an input signal, or a timer.
+
+It is possible to run multiple sequences at the same time, without blocking each other.
+
+A sequence of tasks is similar to **PLC programming for industrial sequences**, or a **state machine with only one path**.
+
+If a state machine with multiple paths is needed, multiple sequences can be defined and controlled using `if`/`else` conditions.
+
 ## Introductory Example
 
 ```C++
