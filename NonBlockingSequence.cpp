@@ -14,6 +14,7 @@
 
             case NonBlockingSequence::function_call:
                 if(first_time_executing_step==true){
+                    _step_start_time = millis();
                     my_func_ptr=steps.get_element().fun_ptr;
                     if( (my_func_ptr)() ){
                         NextStep();
@@ -30,6 +31,7 @@
 
             case NonBlockingSequence::pause:
                 if(first_time_executing_step==true){
+                    _step_start_time = millis();
                     start_pause_time=millis();
                     first_time_executing_step=false;
                 }else if( millis()-start_pause_time > pauses_time.get_element() ){
@@ -135,4 +137,8 @@
 
     void NonBlockingSequence::AutoRestart(unsigned long time_mil){
         _time_mil=time_mil;
+    }
+
+    unsigned long NonBlockingSequence::GetCurrentStepElapsedTime(){
+        return millis() - _step_start_time;
     }

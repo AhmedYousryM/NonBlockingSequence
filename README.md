@@ -217,6 +217,15 @@ bool NonBlockingSequence.FirstTimeStepExecuting();
 ```
 This function check if the current step is running for the first time. This function can be used to apply number of commands in a step for the first call only.
 
+### Current Step Elapsed Time
+```c++
+unsigned long NonBlockingSequence::GetCurrentStepElapsedTime();
+```
+Returns the number of milliseconds elapsed since the current step started executing. The timer starts when the step is executed for the first time and resets when the sequence moves to a new step.
+
+This function can be used inside a step to implement a non-blocking timeout or to control how long the step runs.
+
+
 ## Important Notes
 
 ### Nested Sequence

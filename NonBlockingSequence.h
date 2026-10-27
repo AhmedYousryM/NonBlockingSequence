@@ -67,11 +67,13 @@ class NonBlockingSequence{
     void AutoRestart(unsigned long time_mil = 2000);
     // Automatically restart the sequence if not called for time longer than time_mil
 
-
+    unsigned long GetCurrentStepElapsedTime();
+    // Returns milliseconds elapsed since the current step started executing.
 
     private:
 
     bool first_time_executing_step=true;
+    unsigned long _step_start_time = 0;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
         func_ptr_type fun_ptr;
@@ -106,11 +108,13 @@ class ClassNonBlockingSequence{
     bool NextStep();
     unsigned int PassSteps(unsigned int n);
     bool FirstTimeStepExecuting();
+    unsigned long GetCurrentStepElapsedTime();
     void AutoRestart(unsigned long time_mil = 2000);
 
 
     private:
     bool first_time_executing_step=true;
+    unsigned long _step_start_time = 0;
     A_class *a_obj;
     enum step_type{ function_call=1, pause=2, repeat=3, repeat_n_times=4};
     struct step{
@@ -150,6 +154,7 @@ class ClassNonBlockingSequence{
         switch(steps.get_element().my_step_type){
             case ClassNonBlockingSequence<A_class>::function_call:
                 if(first_time_executing_step==true){
+                    _step_start_time = millis();
                     my_func_ptr=steps.get_element().fun_ptr;
                     if( (a_obj->*my_func_ptr)() ){
                         NextStep();
@@ -165,6 +170,7 @@ class ClassNonBlockingSequence{
 
             case ClassNonBlockingSequence<A_class>::pause:
                 if(first_time_executing_step==true){
+                    _step_start_time = millis();
                     start_pause_time=millis();
                     first_time_executing_step=false;      
                 }else if( millis()-start_pause_time > pauses_time.get_element() ){
@@ -274,5 +280,10 @@ class ClassNonBlockingSequence{
     template <class A_class>
     void ClassNonBlockingSequence<A_class>::AutoRestart(unsigned long time_mil){
         _time_mil=time_mil;
+    }
+
+    template <class A_class>
+    unsigned long ClassNonBlockingSequence<A_class>::GetCurrentStepElapsedTime(){
+        return millis() - _step_start_time;
     }
 #endif
